@@ -8,9 +8,10 @@ export default function Product_detail() {
     // const [showdetail,setdetail]=useState()
     const params = useParams()
     const filterr = products_Data.filter((current)=>{
-          return      current.id== params.id 
+          return      current.id == params.id 
     })
        
+    console.log(params)
                 
     
     // setdetail(filterr)

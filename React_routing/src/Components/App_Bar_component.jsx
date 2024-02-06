@@ -1,16 +1,28 @@
-import State_componenet from "./State_componenet"
+import { Link } from "react-router-dom"
+
+import { useSelector, useDispatch } from 'react-redux'
+import { login } from "../store/Nav_button_Slice"
+import { logout } from "../store/Nav_button_Slice"
 
 function App_Bar_component(){
 
-  
+  const islog = useSelector((e)=>e.islogin)
 
-  function login (){
-    State_componenet(true)
+  const dipatch =  useDispatch()
+  function login_handle (){
+    
+
+    dipatch(login())
    
- 
+    console.log("login")
+    
   }
-  function logout (){
-    State_componenet(false)
+  function logout_handle (){
+
+    dipatch(logout())
+   
+
+    console.log("false")
 
      
   }
@@ -18,12 +30,16 @@ function App_Bar_component(){
   return(
     <>
            <div className="appbar_container">
-           <button   onClick={login}  style={{ width: "100px", marginTop:30,height: "30px", color:"white",background:"green"  }} >
+ 
+         <button   onClick={login_handle}  style={{ width: "100px", marginTop:30,height: "30px", color:"white",background:"green"  }} >
           Login
           </button>
-           <button  onClick={logout}   style={{ width: "100px", marginTop:30,height: "30px",color:"white",background:"green", marginLeft:15 }} >
+       
+         
+          <button  onClick={logout_handle}   style={{ width: "100px", marginTop:30,height: "30px",color:"white",background:"green", marginLeft:15 }} >
           logout
           </button>
+      
            </div>
     </>
   )
