@@ -1,20 +1,46 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Add_todo } from '../Reducer/Todo_Slice'
+import { Add_todo, remove_todo, ubdate_todo } from '../Reducer/Todo_Slice'
 
 function Todo() {
     const [inputdata, setinputdata] = useState('')
-    const data = {
-        tod :  inputdata
-    }
-    const  selector =  useSelector((e)=>e.todos)
-    console.log(data)
-    console.log(selector) 
-    // console.log(inputdata)
+
     const dispatch = useDispatch()
+    const selector = useSelector((state) => state.todoss.todos)
+
+    console.log(selector)
+    //  add todo function
     const Add_t = () => {
-        dispatch(Add_todo(data))
+        dispatch(Add_todo({ id: new Date().getTime(), value: inputdata }))
+        setinputdata('')
+        // console.log(inputdata)
     }
+    //  add todo function
+
+    //  delet todo function
+    const delet_todo_handle = (id) => {
+        // dispatch(selector.value)
+        console.log(id)
+
+        dispatch(remove_todo(id))
+
+    }
+    //  delet todo function
+
+    // todo_ubdate_handle 
+     const todo_Ubdate_handle =(id)=>{
+        const find_todo_value = selector.find((curr)=>{
+           return curr.id ==id
+
+        })
+        setinputdata(find_todo_value.value)
+      
+       
+        dispatch(ubdate_todo({id:id , value :inputdata }))
+
+     }
+    
+    // todo_ubdate_handle 
 
     return (
         <>
@@ -23,12 +49,23 @@ function Todo() {
                     <h1 className='text-2xl font-bold  ' >TODO </h1>
                 </div>
                 <div className='text-center ' >
-                    <input type="text" value={data.todos} onChange={(e) => setinputdata(e.target.value)} className='  border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-green-500' placeholder='Write YOur Todo' />
-                    <button onClick={Add_t} className='text-white' >add</button>
+                    <input type="text" value={inputdata} onChange={(e) => setinputdata(e.target.value)} className='  border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-green-500' placeholder='Write YOur Todo' />
+                    <button onClick={Add_t} className='text-white ' >add</button>
                 </div>
                 <div id='list_todos' className=' my-10 text-center' >
-                    <h1 className='bg-red-500  text-white font-bold text-2xl ' >hii</h1>
-
+                    {
+                        
+                            selector.map((todo,inde) => {
+                                return <div  key={inde}>
+                                    <h1 className='bg-red-500  text-white font-bold text-2xl mb-5 ' > {todo.value}   </h1>
+                                    <button onClick={() => delet_todo_handle(todo.id)} >  remove</button>
+                                    <br /><br />
+                                    <button onClick={()=>todo_Ubdate_handle(todo.id)} >ubdate</button>
+                                    <br /><br />
+                                </div>
+                            })
+                        
+                    }
 
                 </div>
 
