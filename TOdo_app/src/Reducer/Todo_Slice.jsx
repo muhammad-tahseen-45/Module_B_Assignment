@@ -21,17 +21,12 @@ const Todo_slice = createSlice({
         }),
         
         ubdate_todo: ((state, action) => {
-        
-          const find =  state.todos.find((curr)=>{
-              curr.id == action.payload.id
-               
-           })
-           if(find){
-             find.value === action.payload.value
-           }
-           
+        //  const [value , id] = action.payload
+         state.todos = state.todos.map((todo)=>{
+          return todo.id == action.payload.id ? {...todo , value : action.payload.value} :todo
 
-           
+         })
+        
         })
 
    }

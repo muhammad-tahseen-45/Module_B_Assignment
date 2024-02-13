@@ -35,12 +35,17 @@ function Todo() {
         })
         setinputdata(find_todo_value.value)
       
-       
-        dispatch(ubdate_todo({id:id , value :inputdata }))
+      
+     
 
      }
     
     // todo_ubdate_handle 
+
+    const ubdate_todo_value = (id)=>{
+        dispatch(ubdate_todo({id:id,value:inputdata}))
+        // console.log(id)
+    }
 
     return (
         <>
@@ -50,7 +55,8 @@ function Todo() {
                 </div>
                 <div className='text-center ' >
                     <input type="text" value={inputdata} onChange={(e) => setinputdata(e.target.value)} className='  border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-green-500' placeholder='Write YOur Todo' />
-                    <button onClick={Add_t} className='text-white ' >add</button>
+                    <button onClick={Add_t} className='text-white  mr-8' >add</button>
+                    
                 </div>
                 <div id='list_todos' className=' my-10 text-center' >
                     {
@@ -62,6 +68,7 @@ function Todo() {
                                     <br /><br />
                                     <button onClick={()=>todo_Ubdate_handle(todo.id)} >ubdate</button>
                                     <br /><br />
+                                    <button onClick={()=>ubdate_todo_value(todo.id)} className='text-white ' > ubdate todo</button>
                                 </div>
                             })
                         
