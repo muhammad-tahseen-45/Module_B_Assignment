@@ -74,7 +74,7 @@ function Todo() {
                     {
 
                         selector.map((todo, inde) => {
-                            return <div key={inde} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', justifyContent: "space-between" }} >
+                            return <div key={inde} style={{ display: 'flex', alignItems: 'center',  justifyContent: "space-between" }} >
 
                                 <table  >
                                     <tr className='bg-white  ' >
