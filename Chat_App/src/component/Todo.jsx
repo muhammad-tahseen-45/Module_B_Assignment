@@ -18,7 +18,8 @@ function Todo() {
   const selector = useSelector((e) => e.messeges.messeges_arry)
   const dispatch = useDispatch()
   const [inputvalue, setinputvalue] = useState('')
-  const [ubdate,setupdate] = useState("")
+  const [ chek_update_button,setchek_update_button] = useState(false)
+ 
   const messagesEndRef = useRef(null);
   // useEffect(() => {
   //   const starCountRef = ref(database, `messege/`);
@@ -65,14 +66,19 @@ function Todo() {
 
 
   function send_messeg() {
-    const newPostKey = push(child(ref(database), 'post')).key;
-    set(ref(database, `messege/${newPostKey}`), {
-      messeg: inputvalue,
-    }).then(() => {
-      setinputvalue(""); // Clear input value after successfully sending the message
-    }).catch(error => {
-      console.error('Error sending message: ', error);
-    });
+    if(inputvalue === '') {
+      alert("please write messege")
+    }
+    else{
+      const newPostKey = push(child(ref(database), 'post')).key;
+      set(ref(database, `messege/${newPostKey}`), {
+        messeg: inputvalue,
+      }).then(() => {
+        setinputvalue(""); // Clear input value after successfully sending the message
+      }).catch(error => {
+        console.error('Error sending message: ', error);
+      });
+    }
   }
 
   
@@ -98,25 +104,28 @@ function Todo() {
      console.log(id)
      dispatch(delet_messeges(id))
   }
+ function ubdate (id){
+  const fetchinput_Value_from_arry = selector.find((curr) => curr.key === id);
+  setinputvalue(fetchinput_Value_from_arry.messeg); 
+   setchek_update_button(true)
+  
+ }
+  
+function ubdate_handle(id) {
 
-  function upp(){
-    // setupdate(inputvalue)
-    setinputvalue(ubdate)
-  }
+  const dataRef = ref(database, `messege/${id}`);
+  update(dataRef, { messeg: inputvalue })
+    .then(() => {
+      console.log("Node updated successfully");
+    })
+    .catch((error) => {
+      console.error("Error updating node:", error);
+    });
+    setinputvalue('')
+    setchek_update_button(false)
+}
 
-
-  function ubdate_handle(id) {
-    console.log(id);
-    const dataRef = ref(database, `messege/${id}`);
-    // inputfor_update(); // Call the function to update input value to ubdate state
-    update(dataRef, { messeg: ubdate   })
-      .then(() => {
-        console.log("Node updated successfully");
-      })
-      .catch((error) => {
-        console.error("Error updating node:", error);
-      });
-  }
+ 
 
 
  
@@ -142,8 +151,11 @@ function Todo() {
                   return  <Box display="flex" flexDirection={'row'} key={index}  >
                     <Box display={'flex'} justifyContent={'center'} alignItems={'center'} paddingBottom={1}  >
                       <CiCircleRemove onClick={() => del_mess(mess.key)} size={20} color='red' />
-                      <MdOutlineUpdateDisabled onClick={() => ubdate_handle(mess.key)} size={20} color='green' />
-                      <MdOutlineUpdateDisabled   onClick={upp} />
+                    {
+                      chek_update_button?      <MdOutlineUpdateDisabled onClick={() => ubdate_handle(mess.key)} size={20} color='green' /> :      <MdOutlineUpdateDisabled onClick={() => ubdate(mess.key)} size={20} color='green'    /> 
+                     
+                    }
+                     
                     </Box>
                     <h1 className='px-2 rounded-md text-red-500 bg-blue-950 mb-2' style={{ display: 'inline-block', maxWidth: 'fit-content' }}>
                       {mess.messeg}
