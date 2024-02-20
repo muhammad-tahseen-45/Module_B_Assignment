@@ -23,9 +23,18 @@ const MessgesSlice = createSlice({
                 return  message.key !== messeg_id; 
               });
             console.log(messeg_id)
+        },
+        update_messeges: (state, action) => {
+            // const updatedMessage = action.payload;
+            // state.messeges_arry = state.messeges_arry.map(message => {
+            //     if (message.key === updatedMessage.key) {
+            //         return { ...message, messege: "yasmeen" }; // Message ko update kar rahe hain
+            //     }
+            //     return message;
+            // });
         }
     }})
 
 
-export const { Addmesseg, delet_messeges } = MessgesSlice.actions
+export const { Addmesseg, delet_messeges,update_messeges } = MessgesSlice.actions
 export default MessgesSlice.reducer 

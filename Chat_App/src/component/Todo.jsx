@@ -6,10 +6,10 @@ import { Paper } from '@mui/material';
 // import Stack from '@mui/material/Stack'; 
 import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
-import { child, onValue, push, ref, remove, set } from "firebase/database";
+import { child, onValue, push, ref, remove, set, update } from "firebase/database";
 import { database } from '../config/firebase';
 import { useSelector, useDispatch } from 'react-redux'
-import { Addmesseg, delet_messeges } from '../Reducer/MessgesSlice';
+import { Addmesseg, delet_messeges, update_messeges } from '../Reducer/MessgesSlice';
 import { CiCircleRemove } from "react-icons/ci";
 import { MdOutlineUpdateDisabled } from "react-icons/md";
 
@@ -18,6 +18,7 @@ function Todo() {
   const selector = useSelector((e) => e.messeges.messeges_arry)
   const dispatch = useDispatch()
   const [inputvalue, setinputvalue] = useState('')
+  const [ubdate,setupdate] = useState("")
   const messagesEndRef = useRef(null);
   // useEffect(() => {
   //   const starCountRef = ref(database, `messege/`);
@@ -98,12 +99,27 @@ function Todo() {
      dispatch(delet_messeges(id))
   }
 
+  function upp(){
+    // setupdate(inputvalue)
+    setinputvalue(ubdate)
+  }
+
+
+  function ubdate_handle(id) {
+    console.log(id);
+    const dataRef = ref(database, `messege/${id}`);
+    // inputfor_update(); // Call the function to update input value to ubdate state
+    update(dataRef, { messeg: ubdate   })
+      .then(() => {
+        console.log("Node updated successfully");
+      })
+      .catch((error) => {
+        console.error("Error updating node:", error);
+      });
+  }
+
+
  
-
-
-
-
-
 
 
 
@@ -123,10 +139,11 @@ function Todo() {
             <Box sx={{ display: "flex", width: "5000", flexDirection: "column", paddingLeft: "10px", overflowY: "scroll", height: "100", marginTop: "10px", padding: "10px" }}   >
               {
                 selector.map((mess, index) => {
-                  return <Box display="flex" flexDirection={'row'} key={index}  >
+                  return  <Box display="flex" flexDirection={'row'} key={index}  >
                     <Box display={'flex'} justifyContent={'center'} alignItems={'center'} paddingBottom={1}  >
                       <CiCircleRemove onClick={() => del_mess(mess.key)} size={20} color='red' />
-                      <MdOutlineUpdateDisabled onClick={() => del_mess(mess.key)} size={20} color='green' />
+                      <MdOutlineUpdateDisabled onClick={() => ubdate_handle(mess.key)} size={20} color='green' />
+                      <MdOutlineUpdateDisabled   onClick={upp} />
                     </Box>
                     <h1 className='px-2 rounded-md text-red-500 bg-blue-950 mb-2' style={{ display: 'inline-block', maxWidth: 'fit-content' }}>
                       {mess.messeg}
