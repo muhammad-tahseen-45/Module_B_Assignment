@@ -9,53 +9,37 @@ import Input from '@mui/material/Input';
 import { child, onValue, push, ref, remove, set, update } from "firebase/database";
 import { database } from '../config/firebase';
 import { useSelector, useDispatch } from 'react-redux'
-import { Addmesseg, delet_messeges, update_messeges } from '../Reducer/MessgesSlice';
+import { Addmesseg, delet_messeges } from '../Reducer/MessgesSlice';
 import { CiCircleRemove } from "react-icons/ci";
 import { MdOutlineUpdateDisabled } from "react-icons/md";
+import { FaFacebookMessenger, FaLandmark } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
+
 
 
 function Todo() {
   const selector = useSelector((e) => e.messeges.messeges_arry)
   const dispatch = useDispatch()
   const [inputvalue, setinputvalue] = useState('')
-  const [ chek_update_button,setchek_update_button] = useState(false)
- 
+  const [chek_update_button, setchek_update_button] = useState(false)
+
+  const nevigate = useNavigate()
   const messagesEndRef = useRef(null);
-  // useEffect(() => {
-  //   const starCountRef = ref(database, `messege/`);
-  //   onValue(starCountRef, (snapshot) => {
-  //     const data = snapshot.val();
-  //     const messeg_id = Object.keys(data)
-  //     console.log(messeg_id)
-  //     const convert_to_array = Object.values(data);
-  //     const map = messeg_id.map((curr) => {
-  //       return { ...data[curr], "key": curr }
-  //     })
-  //     console.log(map)
 
-
-
-
-  //     dispatch(Addmesseg(convert_to_array))
-
-
-
-  //   })
-  // }, [])
 
   useEffect(() => {
     const starCountRef = ref(database, `messege/`);
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
-      if(data){
+      if (data) {
         const messeg_id = Object.keys(data);
-      const map = messeg_id.map((curr) => {
-        return { ...data[curr], "key": curr };
-      });
-     dispatch(Addmesseg(map));
+        const map = messeg_id.map((curr) => {
+          return { ...data[curr], "key": curr };
+        });
+        dispatch(Addmesseg(map));
       }
-     
-       
+
+
     });
 
   }, []);
@@ -66,10 +50,10 @@ function Todo() {
 
 
   function send_messeg() {
-    if(inputvalue === '') {
+    if (inputvalue === '') {
       alert("please write messege")
     }
-    else{
+    else {
       const newPostKey = push(child(ref(database), 'post')).key;
       set(ref(database, `messege/${newPostKey}`), {
         messeg: inputvalue,
@@ -81,10 +65,10 @@ function Todo() {
     }
   }
 
-  
+
   useEffect(() => {
     scrollToBottom();
-   
+
   }, [selector]);
 
   function scrollToBottom() {
@@ -98,43 +82,62 @@ function Todo() {
       console.log('Data successfully deleted from Firebase.');
       dispatch(delet_messeges(id)); // Redux state se bhi delete karein
     })
-    .catch((error) => {
-      console.error('Error deleting data from Firebase: ', error);
-    });
-     console.log(id)
-     dispatch(delet_messeges(id))
+      .catch((error) => {
+        console.error('Error deleting data from Firebase: ', error);
+      });
+    console.log(id)
+    dispatch(delet_messeges(id))
   }
- function ubdate (id){
-  const fetchinput_Value_from_arry = selector.find((curr) => curr.key === id);
-  setinputvalue(fetchinput_Value_from_arry.messeg); 
-   setchek_update_button(true)
-  
- }
-  
-function ubdate_handle(id) {
+  function ubdate(id) {
+    const fetchinput_Value_from_arry = selector.find((curr) => curr.key === id);
+    setinputvalue(fetchinput_Value_from_arry.messeg);
+    setchek_update_button(true)
 
-  const dataRef = ref(database, `messege/${id}`);
-  update(dataRef, { messeg: inputvalue })
-    .then(() => {
-      console.log("Node updated successfully");
-    })
-    .catch((error) => {
-      console.error("Error updating node:", error);
-    });
+  }
+
+  function ubdate_handle(id) {
+
+    const dataRef = ref(database, `messege/${id}`);
+    update(dataRef, { messeg: inputvalue })
+      .then(() => {
+        console.log("Node updated successfully");
+      })
+      .catch((error) => {
+        console.error("Error updating node:", error);
+      });
     setinputvalue('')
     setchek_update_button(false)
-}
-
+  }
+ function logout(){
+  nevigate('/')
+ }
  
 
 
- 
+
 
 
 
   return (
     <>
+     <Container  style={{ height:"100%" , display:"flex" ,flexDirection:"column",justifyContent:"space-evenly" }}  >
+     <Container style={{ display: "flex", justifyContent: 'center'}}  >
+        <Button onClick={logout} variant="outlined">logout</Button>
+       
+        
+       
+      </Container>
       <Container style={{ width: "350px" }} >
+
+
+
+        <Box>
+          <Paper sx={{ background: "#803ABB", color: "white", textAlign: "center", fontSize: "25px", display: "flex", padding: "5px", justifyContent: "center", fontWeight: "bold" }} className='mb-3  '>
+            <h1 className='mr-4'>Chat  App</h1>
+            <FaFacebookMessenger className='mt-2' />
+          </Paper>
+        </Box>
+
         <Box >
 
 
@@ -142,20 +145,20 @@ function ubdate_handle(id) {
 
 
             <Box display={'flex'} flexDirection={'row'} marginBottom={2} justifyContent={'center'} >
-              <Input onChange={(e) => setinputvalue(e.target.value)}  value={inputvalue} className='mr-4' />
+              <Input onChange={(e) => setinputvalue(e.target.value)} value={inputvalue} className='mr-4' />
               <Button onClick={send_messeg} variant="outlined">send</Button>
             </Box>
-            <Box sx={{ display: "flex", width: "5000", flexDirection: "column", paddingLeft: "10px", overflowY: "scroll", height: "100", marginTop: "10px", padding: "10px" }}   >
+            <Box sx={{ display: "flex",width: "5000", flexDirection: "column", paddingLeft: "10px", overflowY: "scroll", height: "100", marginTop: "10px", padding: "10px"  }}   >
               {
                 selector.map((mess, index) => {
-                  return  <Box display="flex" flexDirection={'row'} key={index}  >
+                  return <Box display="flex" flexDirection={'row'} key={index}  >
                     <Box display={'flex'} justifyContent={'center'} alignItems={'center'} paddingBottom={1}  >
                       <CiCircleRemove onClick={() => del_mess(mess.key)} size={20} color='red' />
-                    {
-                      chek_update_button?      <MdOutlineUpdateDisabled onClick={() => ubdate_handle(mess.key)} size={20} color='green' /> :      <MdOutlineUpdateDisabled onClick={() => ubdate(mess.key)} size={20} color='green'    /> 
-                     
-                    }
-                     
+                      {
+                        chek_update_button ? <MdOutlineUpdateDisabled onClick={() => ubdate_handle(mess.key)} size={20} color='green' /> : <MdOutlineUpdateDisabled onClick={() => ubdate(mess.key)} size={20} color='green' />
+
+                      }
+
                     </Box>
                     <h1 className='px-2 rounded-md text-red-500 bg-blue-950 mb-2' style={{ display: 'inline-block', maxWidth: 'fit-content' }}>
                       {mess.messeg}
@@ -176,6 +179,7 @@ function ubdate_handle(id) {
 
         </Box>
       </Container>
+     </Container>
 
     </>
   )
