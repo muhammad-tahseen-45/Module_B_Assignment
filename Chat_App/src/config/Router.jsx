@@ -3,9 +3,9 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-  Router,
+
   RouterProvider,
-  Routes,
+
 } from "react-router-dom";
 
 

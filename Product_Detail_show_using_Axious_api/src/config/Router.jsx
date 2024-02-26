@@ -8,7 +8,10 @@ import {
 
 } from "react-router-dom";
 import Home from '../pages/Home';
+// import Product_detail from '../pages/Product_detail';
+
 import Product_detail from '../pages/Product_detail';
+
 
 
 
@@ -31,6 +34,7 @@ const router = createBrowserRouter(
       <Route   >
 
      <Route path='/'  element={<Home/>} /> 
+    
      <Route path='detail/:id'  element={<Product_detail/>} />
 
 

@@ -6,9 +6,10 @@ import { get_api_data } from '../Reducer/Product_slice'
 import { Box } from '@mui/material'
 import Product_card_com from './Product_card_com'
 import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Grid'
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import useParams from 'react-dom'
+
 
 function Product_data_compponenet() {
     // const params = useParams()
@@ -36,24 +37,27 @@ function Product_data_compponenet() {
 
 
 
+
     return (
         <>
-            <Box>
-
-            </Box>
+            
+            <Container container   spacing={10} maxWidth={"md"}  style={{display:"flex", justifyContent:"center" }}>
             {
                 selector.map((curr, index) => {
-                    return <Box key={index}>
-                        <Grid container >
-                            <Grid item xs={8} >
-                            </Grid>
-                            <Item> <Product_card_com catogry={curr.catogry} image={curr.image} id={curr.id} price={curr.price} title={curr.title.slice(0, 10)} description={curr.description.slice(0, 110)} /></Item>
-                        </Grid>
-                    </Box>
+                       
+                         
+                              return   <Grid  key={index}item md={4} style={{marginBottom:"10px"}}>
+                                     <Product_card_com catogry={curr.catogry} image={curr.image} id={curr.id} price={curr.price} title={curr.title.slice(0, 10)} description={curr.description.slice(0, 110)} />
 
+                                </Grid>
+
+                           
+                        
+                  
                 })
 
             }
+            </Container>
         </>
     )
 }

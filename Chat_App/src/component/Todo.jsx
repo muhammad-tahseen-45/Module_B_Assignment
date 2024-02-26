@@ -89,6 +89,7 @@ function Todo() {
     dispatch(delet_messeges(id))
   }
   function ubdate(id) {
+    alert("write updated value and click ubpdate button")
     const fetchinput_Value_from_arry = selector.find((curr) => curr.key === id);
     setinputvalue(fetchinput_Value_from_arry.messeg);
     setchek_update_button(true)
