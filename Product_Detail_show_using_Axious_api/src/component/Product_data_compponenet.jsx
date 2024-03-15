@@ -27,7 +27,8 @@ function Product_data_compponenet() {
         axios.get("https://fakestoreapi.com/products")
             .then((res) => {
                 console.log(res.data)
-                dispatch(get_api_data(res.data))
+                const product = res.data.map((curr)=>({...curr,quantity:0}))
+                dispatch(get_api_data(product))
 
             })
 
@@ -47,7 +48,7 @@ function Product_data_compponenet() {
                        
                          
                               return   <Grid  key={index}item md={4} style={{marginBottom:"10px"}}>
-                                     <Product_card_com catogry={curr.catogry} image={curr.image} id={curr.id} price={curr.price} title={curr.title.slice(0, 10)} description={curr.description.slice(0, 110)} />
+                                     <Product_card_com object_for_card={curr} catogry={curr.category} image={curr.image} id={curr.id} price={curr.price} title={curr.title.slice(0, 10)} description={curr.description.slice(0, 110)} />
 
                                 </Grid>
 

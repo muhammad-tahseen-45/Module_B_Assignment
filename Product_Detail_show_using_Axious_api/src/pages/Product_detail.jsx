@@ -4,7 +4,7 @@ import P_detail from '../component/P_detail_comp'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
-
+  
 function Product_detail() {
   const Params = useParams()
   console.log(Params.id)

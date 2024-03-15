@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 export default function P_detail_comp(props) {
   const {catogary,image,title,description,price} =props
  
+ 
   
 
   return (
